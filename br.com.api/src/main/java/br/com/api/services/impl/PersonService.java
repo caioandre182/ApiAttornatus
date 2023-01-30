@@ -3,6 +3,7 @@ package br.com.api.services.impl;
 import br.com.api.dto.PersonDTO;
 import br.com.api.entities.Address;
 import br.com.api.entities.Person;
+import br.com.api.exception.exceptions.PersonNotFoundException;
 import br.com.api.repositories.PersonRepository;
 import br.com.api.services.IPersonService;
 
