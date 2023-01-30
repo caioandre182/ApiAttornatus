@@ -18,14 +18,12 @@ public class AddressDTO {
     @Size(min = 3, max = 10, message = "Postal code must be between 3 or 10 characters")
     private String postalCode;
 
-    @NotBlank(message = "field not found")
     @Min(value = 0)
     private Integer number;
     private String city;
 
-    @NotBlank(message = "field not found")
-    @Size(min = 3, max = 100, message = "City must be between 3 or 100 characters")
     private Integer status;
+
     private Person person;
 
     public AddressDTO() {

@@ -6,10 +6,13 @@ import br.com.api.entities.Person;
 import br.com.api.exception.exceptions.PersonNotFoundException;
 import br.com.api.repositories.PersonRepository;
 import br.com.api.services.IPersonService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+
+@Service
 public class PersonService implements IPersonService {
 
     private final PersonRepository personRepository;

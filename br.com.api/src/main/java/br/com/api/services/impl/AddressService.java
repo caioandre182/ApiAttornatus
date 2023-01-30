@@ -10,9 +10,11 @@ import br.com.api.exception.exceptions.PrincipalAddressExistsException;
 import br.com.api.repositories.AddressRepository;
 import br.com.api.services.IAddressService;
 import br.com.api.services.IPersonService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AddressService implements IAddressService {
 
     private final AddressRepository addressRepository;
