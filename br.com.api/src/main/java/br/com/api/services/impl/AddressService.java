@@ -1,6 +1,7 @@
 package br.com.api.services.impl;
 
 import br.com.api.dto.AddressDTO;
+import br.com.api.dto.AddressStatusDTO;
 import br.com.api.entities.Address;
 import br.com.api.entities.Person;
 import br.com.api.entities.enums.AddressStatus;
@@ -67,6 +68,57 @@ public class AddressService implements IAddressService {
         }
 
         return addressRepository.save(address);
+    }
+
+    @Override
+    public void updateStatus(AddressStatusDTO addressStatusDTO, Long id) {
+        // BUSCANDO O ID DA PESSOA
+        Person person = personService.findById(id);
+
+        // OBTENDO O STATUS (AddressStatus)
+        AddressStatus status = AddressStatus.valueOf(addressStatusDTO.getStatus());
+
+        // BUSCANDO OS ENDEREÇOS DA PESSOA
+        List<Address> addresses = person.getAddresses();
+
+        // VERIFICANDO SE O ID DE ENDEREÇO CONSTA NA LISTA DE ENDEREÇOS
+        if(!checkIdExists(addresses, addressStatusDTO.getId())){
+            throw new AddressNotFoundException("Invalid id");
+        }
+
+        // CASO O STATUS PASSADO FOR SECONDARY
+        if(addressStatusDTO.getStatus() == 2){
+            for(Address ad: addresses){
+                if(ad.getId().equals(addressStatusDTO.getId())){
+                    ad.setStatus(status);
+                    addressRepository.save(ad);
+                }
+            }
+        } else {
+            // ALTERANDO O STATUS PRINCIPAL, PARA GARANTIR QUE NÃO TENHA DOIS
+            for(Address ad: addresses){
+                if(checkPrincipal(ad)){
+                    ad.setStatus(AddressStatus.SECONDARY);
+                }
+            }
+            for(Address ad: addresses){
+                if(ad.getId().equals(addressStatusDTO.getId())){
+                    ad.setStatus(status);
+                    addressRepository.save(ad);
+                }
+            }
+        }
+
+    }
+
+    private boolean checkIdExists(List<Address> addresses, Long id){
+        boolean verify = false;
+        for(Address ad : addresses){
+            if(ad.getId().equals(id)){
+                verify = true;
+            }
+        }
+        return verify;
     }
 
 

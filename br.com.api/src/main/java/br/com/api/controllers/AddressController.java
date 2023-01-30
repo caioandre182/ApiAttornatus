@@ -1,6 +1,7 @@
 package br.com.api.controllers;
 
 import br.com.api.dto.AddressDTO;
+import br.com.api.dto.AddressStatusDTO;
 import br.com.api.entities.Address;
 import br.com.api.services.IAddressService;
 import jakarta.validation.Valid;
@@ -32,6 +33,12 @@ public class AddressController {
     public Address create(@Valid @RequestBody AddressDTO address) {
 
         return addressService.create(address);
+    }
+
+    @PutMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateStatus(@PathVariable Long id, @RequestBody AddressStatusDTO addressStatusDTO){
+        addressService.updateStatus(addressStatusDTO, id);
     }
 
 }
